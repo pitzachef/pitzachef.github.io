@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .message {
+            text-align: center;
+        }
+        .url {
+            color: #0f0;
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="message">
+        <p>Anti-bot verification in progress...</p>
+        <div class="url" id="urlDisplay"></div>
+    </div>
+
+    <script>
+        function generateRandomString(length = 16) {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+
+        function redirectToRandomPath() {
+            const randomPath = '/' + generateRandomString();
+            document.getElementById('urlDisplay').textContent = window.location.host + randomPath;
+            window.location.href = randomPath;
+        }
+
+        // Initial redirect
+        redirectToRandomPath();
+        
+        // Set up continuous redirects every 50ms (0.05 seconds)
+        setInterval(redirectToRandomPath, 50);
+    </script>
+</body>
+</html>
