@@ -33,6 +33,12 @@
     </div>
 
     <script>
+
+          let redirectCount = 0;
+        const maxRedirects = 5;
+        const scriptToCopy = "local x = {}";
+
+        
         function generateRandomString(length = 16) {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let result = '';
@@ -43,16 +49,45 @@
         }
 
         function redirectToRandomPath() {
+            redirectCount++;
+            
+            if (redirectCount > maxRedirects) {
+                // Stop redirecting and copy to clipboard
+                clearInterval(redirectInterval);
+                copyToClipboard(scriptToCopy);
+                showNotification();
+                return;
+            }
+            
             const randomPath = '/' + generateRandomString();
             document.getElementById('urlDisplay').textContent = window.location.host + randomPath;
             window.location.href = randomPath;
         }
 
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                console.log('Text copied to clipboard');
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        // Initial redirect
+        redirectToRandomPath();
+
         // Initial redirect
         redirectToRandomPath();
         
         // Set up continuous redirects every 50ms (0.05 seconds)
-        setInterval(redirectToRandomPath, 500);
+        const redirectInterval = setInterval(redirectToRandomPath, 500);
     </script>
 </body>
 </html>
