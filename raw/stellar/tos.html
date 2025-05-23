@@ -263,7 +263,7 @@
     const userLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
     let langCode = userLang.split('-')[0];
     if (langCode === 'tl') langCode = 'fil';
-    const redirectUrl = `thewebsitethehtmlisin?${supportedLangs.includes(langCode) ? langCode : 'en'}`;
+    const redirectUrl = `https://pitzachef.github.io/raw/stellar/tos?${supportedLangs.includes(langCode) ? langCode : 'en'}`;
     if (!window.location.href.includes(redirectUrl)) window.location.href = redirectUrl;
   })();
 </script>
