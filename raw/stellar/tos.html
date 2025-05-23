@@ -261,19 +261,19 @@
   (function(){
     const supportedLangs = ['en', 'es', 'de', 'ru', 'fil', 'ja'];
     const baseUrl = 'https://pitzachef.github.io/raw/stellar/tos';
-    const query = window.location.search.slice(1).toLowerCase();
-    let langCode = '';
-    if (supportedLangs.includes(query)) {
-      langCode = query;
-    } else {
+    const params = new URLSearchParams(window.location.search);
+    let langCode = params.get('lang');
+
+    if (!langCode || !supportedLangs.includes(langCode)) {
       const userLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
       langCode = userLang.split('-')[0];
       if (langCode === 'tl') langCode = 'fil';
       if (!supportedLangs.includes(langCode)) langCode = 'en';
-    }
-    const targetUrl = `${baseUrl}?${langCode}`;
-    if (window.location.href !== targetUrl) {
-      window.location.href = targetUrl;
+
+      const targetUrl = `${baseUrl}?lang=${langCode}`;
+      if (window.location.href !== targetUrl) {
+        window.location.href = targetUrl;
+      }
     }
   })();
 </script>
