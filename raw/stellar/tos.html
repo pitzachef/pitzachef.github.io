@@ -260,11 +260,22 @@
 <script>
   (function(){
     const supportedLangs = ['en', 'es', 'de', 'ru', 'fil', 'ja'];
-    const userLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
-    let langCode = userLang.split('-')[0];
-    if (langCode === 'tl') langCode = 'fil';
-    const redirectUrl = `https://pitzachef.github.io/raw/stellar/tos?${supportedLangs.includes(langCode) ? langCode : 'en'}`;
-    if (!window.location.href.includes(redirectUrl)) window.location.href = redirectUrl;
+    const baseUrl = 'https://pitzachef.github.io/raw/stellar/tos';
+    const params = new URLSearchParams(window.location.search);
+    let langCode = params.get('lang') || params.get('') || '';
+
+    if(!langCode) {
+      const userLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+      langCode = userLang.split('-')[0];
+      if(langCode === 'tl') langCode = 'fil';
+      if(!supportedLangs.includes(langCode)) langCode = 'en';
+      const redirectUrl = `${baseUrl}?${langCode}`;
+      if(window.location.href !== redirectUrl) window.location.href = redirectUrl;
+    } else {
+      if(!supportedLangs.includes(langCode)) {
+        window.location.href = `${baseUrl}?en`;
+      }
+    }
   })();
 </script>
 </body>
